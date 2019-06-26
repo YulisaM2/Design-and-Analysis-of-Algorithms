@@ -1,0 +1,52 @@
+/** Solution to the problem found here: https://leetcode.com/problems/pascals-triangle/
+*
+* Given a non-negative integer numRows, generate the first numRows of Pascal's triangle.
+**/
+
+class Solution {
+public:
+        
+    void calcLevel(int numRows, int i, int j, vector<vector<int>> &triangle) {
+        // If you are in the corner of the triangle (start or end of row) the value is 1
+		if (i == 0 && i != j) {
+			triangle[j][i] = 1;
+			calcLevel(numRows, i + 1, j, triangle);
+        // Notice that when the current value of rows and column match, you must advance to the following row
+		}else if (i == j) {
+			triangle[j][i] = 1;
+            // Notice that when the current value of rows and column match, you must advance to the following row
+            // However, if the current row is the last one, you have reached the end of the triangle
+			if (j == numRows - 1) {
+				return;
+			}
+			calcLevel(numRows, 0, j + 1, triangle);
+		}
+		else {
+            // Use the previously calculated values (bottom-up approach) to find the total of your current position
+			triangle[j][i] = triangle[j - 1][i - 1] + triangle[j - 1][i];
+			calcLevel(numRows, i + 1, j, triangle);
+		}
+
+	}
+
+	vector<vector<int>> generate(int numRows) {
+        
+       // Return an empty vector of vectors if numRows is 0
+		vector<vector<int>> triangle;
+        if(numRows == 0){
+            return triangle;
+        }
+    
+        // Else create the container with the amount of levels and columns appropiate to numRows
+		for (int i = 0; i < numRows; ++i) {
+			triangle.emplace_back();
+			for (int j = 1; j <= i + 1; ++j) {
+				triangle[i].emplace_back(0);
+			}
+		}
+
+
+		calcLevel(numRows, 0, 0, triangle);
+		return triangle;
+	}
+};

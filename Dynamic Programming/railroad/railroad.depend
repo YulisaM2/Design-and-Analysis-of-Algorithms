@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1556793818 source:c:\users\yulis\desktop\railroad\main.cpp
+	<iostream>
+	<vector>
+
